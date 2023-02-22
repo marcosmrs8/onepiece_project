@@ -11,7 +11,7 @@ html_content = requests.get(f'{baseUrl}/wiki/List_of_Canon_Characters').text
 soup = BeautifulSoup(html_content, "lxml")
 print(soup.title.text)
 namesToIgnore = ['List of Canon Characters/Names A-M', 'List of Canon Characters/Names N-Z']
-dotenv_path = join(dirname(__file__), '.env')
+dotenv_path = join(dirname(__file__), '../.env')
 load_dotenv(dotenv_path)
 
 mongoConnection = os.environ.get("MONGODB")
@@ -19,12 +19,15 @@ client = MongoClient(mongoConnection)
 
 
 def updatebd(image_anime, image_manga, titulo, data):
-    separetedName = titulo.split(' ')
-    dadosToUpdate = {'image': image_anime, 'image_manga': image_manga, 'name': titulo, 'splitedName': separetedName}
-    dadosToUpdate.update(data)
-    database = client.test.one_piece
-    database.update_one({'name': titulo}, {"$set": dadosToUpdate}, upsert=True)
-    print('adicionado: ', titulo)
+    try:
+        separetedName = titulo.split(' ')
+        dadosToUpdate = {'image': image_anime, 'image_manga': image_manga, 'name': titulo, 'splitedName': separetedName}
+        dadosToUpdate.update(data)
+        database = client.test.one_piece
+        database.update_one({'name': titulo}, {"$set": dadosToUpdate}, upsert=True)
+        print('adicionado: ', titulo)
+    except Exception as e:
+        print(e)
 
 
 def getCharacterAndUpdate(link, title):

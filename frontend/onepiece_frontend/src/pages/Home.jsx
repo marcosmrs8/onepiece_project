@@ -12,7 +12,7 @@ export const Home = () => {
     },[])
 
     const getCharacter = () => {        
-        axios.get("http://localhost:8000/api/personagens/mongo")
+        axios.get("http://localhost:8000/api/v1/personagens/")
         .then((res) => setCharacters(res.data))
     }
     const filteredCharacters = (name) => {
