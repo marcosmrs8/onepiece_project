@@ -1,0 +1,29 @@
+version: "3"
+services:
+  database:
+    restart: "always"
+    image: mongo
+    container_name: database
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    networks:
+      - project_onepiece
+
+  frontend:
+    restart: "always"
+    image: frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - project_onepiece
+
+networks:
+  project_onepiece:
+    driver: "bridge"
+    ipam:
+      config:
+        - subnet: 172.16.24.16/29

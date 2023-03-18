@@ -30,7 +30,7 @@
 
 ## :dart: About ##
 
-This is a project is made to practice
+This is a project made to practice
 
 ## :sparkles: Features ##
 
@@ -46,10 +46,11 @@ The following tools were used in this project:
 - [Python](https://www.python.org/)
 - [React](https://pt-br.reactjs.org/)
 - [MongoDB](https://www.mongodb.com/pt-br)
+- [Docker](https://www.docker.com)
 
 ## :white_check_mark: Requirements ##
 
-Before starting :checkered_flag:, you need to have [Git](https://git-scm.com), [Go](https://go.dev/) and [Python](https://www.python.org/) installed.
+Before starting :checkered_flag:, you need to have [Git](https://git-scm.com), [Go](https://go.dev/), [Python](https://www.python.org/) and [Docker](https://www.docker.com) installed.
 
 # :checkered_flag: Starting #
  ## First part is make your .env file in the root of your project ##
@@ -66,16 +67,19 @@ COLLECTION=one_piece
 $ git clone https://github.com/marcosmrs8/project_onepiece
 
 # Access
-$ cd project_onepiece/api
+$ cd project_onepiece/frontend/onepiece_frontend
 
-# Run docker to provide MONGODB
+# Run docker file to frontend
+$ docker build -t frontend .
+
+# Return to root
+$ cd ...
+
+# Run docker to provide MONGODB and the front-end will run on port 3000
 $ docker-compose up
 
-# Back to root
-$ cd ..
-
 # Access
-$ cd project_onepiece/scrapping
+$ cd scrapping/
 
 # Install dependencies
 $ pip install -r requirements.txt
@@ -85,8 +89,11 @@ $ python main.py
 
 # Remember: This will take a long time to complete and can get some errors
 
+# Back to root
+$ cd ..
+
 # You cant in paralalel run the api
-$ cd api
+$ cd api/
 
 # Install dependencies
 $ go mod tidy
@@ -94,16 +101,9 @@ $ go mod tidy
 # And run
 $ go run main.go
 
-# Access the frontend
-$ cd frontend/onepiece_frontend
-
-# install dependencies
-$ npm i
-
-# Run the project
-$ npm start
 
 ```
+### Now you can access the http://localhost:3000/ to see the frontend
 
 # Rotas
 ## Get: `v1/personagens/`
