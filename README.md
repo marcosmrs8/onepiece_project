@@ -59,7 +59,7 @@ Before starting :checkered_flag:, you need to have [Git](https://git-scm.com), [
 # Clone this project
 $ git clone https://github.com/marcosmrs8/project_onepiece
 
-# Make your .env file in the root of your project ##
+# Make your .env file in the root of your project
 Example:
 MONGODB=mongodb://admin:admin@localhost:27017
 DATABASE=test
