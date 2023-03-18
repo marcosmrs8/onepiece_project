@@ -208,7 +208,6 @@ response:
 ]
 ```
 
-Made with :heart: by <a href="https://github.com/marcosmrs8" target="_blank">Rodrigo</a>
 
 &#xa0;
 
