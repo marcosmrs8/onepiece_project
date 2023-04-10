@@ -53,18 +53,17 @@ The following tools were used in this project:
 Before starting :checkered_flag:, you need to have [Git](https://git-scm.com), [Go](https://go.dev/), [Python](https://www.python.org/) and [Docker](https://www.docker.com) installed.
 
 # :checkered_flag: Starting #
- ## First part is make your .env file in the root of your project ##
-```
-Example:
 
-MONGODB=mongodb://admin:admin@localhost:27017
-DATABASE=test
-COLLECTION=one_piece
-```
-## After that you can follow this steps ##
+## To start you can follow this steps ##
 ```bash
 # Clone this project
 $ git clone https://github.com/marcosmrs8/project_onepiece
+
+# Make your .env file in the root of your project
+Example:
+MONGODB=mongodb://admin:admin@localhost:27017
+DATABASE=test
+COLLECTION=one_piece
 
 # Access
 $ cd project_onepiece/frontend/onepiece_frontend
@@ -208,7 +207,6 @@ response:
 ]
 ```
 
-Made with :heart: by <a href="https://github.com/marcosmrs8" target="_blank">Rodrigo</a>
 
 &#xa0;
 
