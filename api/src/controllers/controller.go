@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"api/src/database"
 	"api/src/entity"
 	"api/src/mongodb"
 	"context"
@@ -9,12 +8,10 @@ import (
 	"log"
 	"net/http"
 
-	"cloud.google.com/go/firestore"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
-	"google.golang.org/api/iterator"
 )
 
 type CharsMongo struct {
@@ -54,43 +51,6 @@ func TodosPersonagensMongo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-}
-
-func TodosPersonagens(w http.ResponseWriter, r *http.Request) {
-	ctx := context.Background()
-	client, err := database.Initialize(ctx)
-	if err != nil {
-		panic(err)
-	}
-	defer func(client *firestore.Client) {
-		err := client.Close()
-		if err != nil {
-			panic(err)
-		}
-	}(client)
-	var todos []entity.Chars
-	iter := client.Collection("one-piece").Documents(ctx)
-	defer iter.Stop()
-	for {
-		doc, err := iter.Next()
-		if err == iterator.Done {
-			break
-		}
-		if err != nil {
-			panic(err)
-		}
-		var a entity.Chars
-		if err := doc.DataTo(&a); err != nil {
-			panic(err)
-		}
-		todos = append(todos, a)
-
-	}
-	//var s []entity.Chars = todos[0:50]
-	err = json.NewEncoder(w).Encode(todos)
-	if err != nil {
-		return
-	}
 }
 
 func PersonageSpecificMongo(w http.ResponseWriter, r *http.Request) {
@@ -137,54 +97,6 @@ func PersonageSpecificMongo(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	err = json.NewEncoder(w).Encode(episodesFiltered)
-	if err != nil {
-		return
-	}
-}
-
-func PersonageSpecific(w http.ResponseWriter, r *http.Request) {
-	var p entity.SpecificChar
-	err := json.NewDecoder(r.Body).Decode(&p)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-	if p.Name == "" {
-		http.Error(w, `faltou o nome`, http.StatusNotFound)
-		return
-	}
-	ctx := context.Background()
-	client, err := database.Initialize(ctx)
-	if err != nil {
-		return
-	}
-	defer func(client *firestore.Client) {
-		err := client.Close()
-		if err != nil {
-			panic(err)
-		}
-	}(client)
-	var todos []entity.Chars
-	var treatedName = cases.Title(language.Und, cases.NoLower).String(p.Name)
-	iter := client.Collection("one-piece").Where("splitedName", "array-contains-any", []string{treatedName}).Documents(ctx)
-	defer iter.Stop()
-	for {
-		doc, err := iter.Next()
-		if err == iterator.Done {
-			break
-		}
-		if err != nil {
-			panic(err)
-		}
-		var a entity.Chars
-		if err := doc.DataTo(&a); err != nil {
-			panic(err)
-		}
-		todos = append(todos, a)
-
-	}
-
-	err = json.NewEncoder(w).Encode(todos)
 	if err != nil {
 		return
 	}
