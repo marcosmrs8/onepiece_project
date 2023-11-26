@@ -6,7 +6,7 @@ import os
 from dotenv import load_dotenv
 
 baseUrl = 'https://onepiece.fandom.com'
-html_content = requests.get(f'{baseUrl}/wiki/List_of_Canon_Characters').text
+html_content = requests.get(f'{baseUrl}/pt/wiki/Lista_de_Personagens_Canônicos').text
 
 soup = BeautifulSoup(html_content, "lxml")
 print(soup.title.text)
@@ -32,12 +32,19 @@ def updatebd(image_anime, image_manga, titulo, data):
 
 def getCharacterAndUpdate(link, title):
     new_content = requests.get(link).text
+    
     soup2 = BeautifulSoup(new_content, "lxml")
-    image_anime = soup2.find('a', {'class': 'image'})
-    image_manga = soup2.find('a', {'title': 'Manga'})
+    aparencia_heading = soup2.find('span', {'id': 'Aparência'})
     data = {}
+    if aparencia_heading:
+        next_sibling = aparencia_heading.find_next('p')
+        if next_sibling:
+            data['appearance'] = next_sibling.text
+    image_anime = soup2.find('a', {'class': 'image'})
+    image_manga = soup2.find('a', {'title': 'Mangá'})
+    
     try:
-        description = soup2.find('div', {'data-source': 'status'}).text
+        description = soup2.find_('div', {'data-source': 'status'}).text
         data['Status'] = description.replace('\n', '').replace('Status:', '')
     except Exception:
         print('erro no status')
@@ -66,7 +73,8 @@ for table in gdp_table:
                 link = baseUrl + item.a.attrs['href']
                 title = item.a.attrs['title']
                 newTitle = title.replace("/", " ").replace("-", " ").replace("Vegapunk", "").strip()
-                getCharacterAndUpdate(link, newTitle)
-                allCharacters.append({"link": link, "title": newTitle})
+                if("Capítulo" not in newTitle):
+                    getCharacterAndUpdate(link, newTitle)
+                    allCharacters.append({"link": link, "title": newTitle})
         except Exception as e:
             print(f'error: {e}', item.text)

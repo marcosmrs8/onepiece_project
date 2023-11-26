@@ -21,6 +21,7 @@ type CharsMongo struct {
 	Image_manga string   `bson:"image_manga,omitempty"`
 	SplitedName []string `bson:"splitedName,omitempty"`
 	Bounty      string   `bson:"bounty,omitempty"`
+	Appearance  string   `bson:"appearance,omitempty"`
 	_id         string   `bson:"_id,omitempty"`
 }
 
