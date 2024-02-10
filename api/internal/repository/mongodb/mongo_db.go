@@ -12,7 +12,7 @@ import (
 )
 
 func ConnectDB(ctx context.Context) (*mongo.Database, error) {
-	err := godotenv.Load("../.env")
+	err := godotenv.Load("../../.env")
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}

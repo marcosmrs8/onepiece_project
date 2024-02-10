@@ -44,7 +44,7 @@ def getCharacterAndUpdate(link, title):
     image_manga = soup2.find('a', {'title': 'Mangá'})
     
     try:
-        description = soup2.find_('div', {'data-source': 'status'}).text
+        description = soup2.find('div', {'data-source': 'status'}).text
         data['Status'] = description.replace('\n', '').replace('Status:', '')
     except Exception:
         print('erro no status')
