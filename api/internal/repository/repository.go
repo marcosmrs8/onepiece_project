@@ -48,7 +48,6 @@ func (r *characterRepository) GetCharactersByName(ctx context.Context, name stri
 	}
 	cursor.Close(ctx)
 
-	// If no documents found by complete name, try to find by partial name in splitedName
 	if len(characters) == 0 {
 		filter := bson.M{"splitedName": bson.M{"$regex": name, "$options": "i"}}
 		cursor, err := r.collection.Find(ctx, filter)
@@ -60,6 +59,5 @@ func (r *characterRepository) GetCharactersByName(ctx context.Context, name stri
 		}
 		cursor.Close(ctx)
 	}
-
 	return characters, nil
 }

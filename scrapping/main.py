@@ -45,7 +45,7 @@ def getCharacterAndUpdate(link, title):
     
     try:
         description = soup2.find('div', {'data-source': 'status'}).text
-        data['Status'] = description.replace('\n', '').replace('Status:', '')
+        data['Status'] = description.replace('\n', '').replace('Estado:', '')
     except Exception:
         print('erro no status')
         pass

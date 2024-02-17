@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"api/internal/domain/entity"
 	services "api/internal/service"
 	"context"
 	"encoding/json"
@@ -32,14 +31,13 @@ func (c *CharacterController) GetAllCharacters(w http.ResponseWriter, r *http.Re
 }
 
 func (c *CharacterController) GetCharacterByName(w http.ResponseWriter, r *http.Request) {
-	var p entity.SpecificChar
-	err := json.NewDecoder(r.Body).Decode(&p)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+	name := r.URL.Query().Get("name")
+	if name == "" {
+		http.Error(w, "Name parameter is required", http.StatusBadRequest)
 		return
 	}
 	ctx := context.Background()
-	character, err := c.characterService.GetCharactersByName(ctx, p.Name, nil)
+	character, err := c.characterService.GetCharactersByName(ctx, name, nil)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

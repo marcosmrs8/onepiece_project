@@ -92,7 +92,7 @@ $ python main.py
 $ cd ..
 
 # You cant in paralalel run the api
-$ cd api/
+$ cd api/cmd/
 
 # Install dependencies
 $ go mod tidy
@@ -110,62 +110,51 @@ $ go run main.go
  ``` 
  [
 	{
-		"Status": "Unknown",
-		"Name": "A O",
-		"Image": "https://static.wikia.nocookie.net/onepiece/images/8/8c/A_O_Anime_Infobox.png/revision/latest?cb=20160102105316",
-		"Image_manga": "https://static.wikia.nocookie.net/onepiece/images/0/0a/A_O_Manga_Infobox.png/revision/latest?cb=20130920143634",
+		"Status": "Vivo(a)",
+		"Name": "A.O",
+		"Image": "https://static.wikia.nocookie.net/onepiece/images/9/94/A.O_Anime_Infobox.png/revision/latest?cb=20211117163925&path-prefix=pt",
+		"Image_manga": "https://static.wikia.nocookie.net/onepiece/images/5/56/A.O_Manga_Infobox.png/revision/latest?cb=20150916190642&path-prefix=pt",
 		"SplitedName": [
-			"A",
-			"O"
+			"A.O"
 		],
-		"Bounty": ""
+		"Bounty": "",
+		"Appearance": "A.O é um homem muito alto com um rosto comprido, em forma de retângulo, olhos fundos sob as sobrancelhas proeminentes, costeletas escuras que percorrem todo o caminho até o queixo e cabelo ondulado longo esverdeada. Em sua cabeça ele usa um amarelo e marrom listrado bandana e sobre ele um chapéu de capitão tricorn com o que parece ser o seu Roger alegre nele, um crânio branco vestindo um capuz animalesca. Ele também usa um azul escuro, camisa aberta com as mangas arregaçadas e uma gola de babados, e brincos elaborados composta por três pequenas jóias cada um em ambas as orelhas.\n"
 	},
 	{
-		"Status": "Alive",
+		"Status": "Vivo(a)",
 		"Name": "Abdullah",
-		"Image": "https://static.wikia.nocookie.net/onepiece/images/f/f1/Abdullah_Anime_Infobox.png/revision/latest?cb=20151004140309",
-		"Image_manga": "https://static.wikia.nocookie.net/onepiece/images/4/44/Abdullah_Manga_Infobox.png/revision/latest?cb=20151004140342",
+		"Image": "https://static.wikia.nocookie.net/onepiece/images/f/f1/Abdullah_Anime_Infobox.png/revision/latest?cb=20211001025009&path-prefix=pt",
+		"Image_manga": "https://static.wikia.nocookie.net/onepiece/images/4/44/Abdullah_Manga_Infobox.png/revision/latest?cb=20211001025320&path-prefix=pt",
 		"SplitedName": [
 			"Abdullah"
 		],
-		"Bounty": ""
-	},
-	{
-		"Status": "Deceased",
-		"Name": "Absalom",
-		"Image": "https://static.wikia.nocookie.net/onepiece/images/5/56/Absalom_Anime_Infobox.png/revision/latest?cb=20230101154942",
-		"Image_manga": "https://static.wikia.nocookie.net/onepiece/images/d/d6/Absalom_Manga_Infobox.png/revision/latest?cb=20131008193307",
-		"SplitedName": [
-			"Absalom"
-		],
-		"Bounty": ""
-	},
-  ]
+		"Bounty": "",
+		"Appearance": "Abdullah tem uma cabeça pontiaguda que é careca na parte superior com cabelo preto em tranças presas para os lados. Sua testa alta tem três cicatrizes verticais sobre ela. Ele ostenta óculos retangulares finas e, juntamente com grandes calças roxas presas por suspensórios castanhos. Ele também tem uma armadura sobre o braço esquerdo.\n"
+	}
+ ]
  ```
-## Get: `/v1/personagens/specific`
+## Get: `/v1/personagens/specific?name={name || part of name}`
 - **Get** returns a specific character if the name is complete, or similar characters if part of the name matches the query
 
 **Search with full name**
 ```
 request:
-body:
-{
-	"name":"Monkey D. Luffy"
-}
+query = /specific?name=Monkey D. Luffy
 
 response:
 [
 	{
-		"Status": "Alive",
+		"Status": "Estado:Vivo(a)",
 		"Name": "Monkey D. Luffy",
-		"Image": "https://static.wikia.nocookie.net/onepiece/images/6/6d/Monkey_D._Luffy_Anime_Post_Timeskip_Infobox.png/revision/latest?cb=20200429191518",
+		"Image": "https://static.wikia.nocookie.net/onepiece/images/6/6d/Monkey_D._Luffy_Anime_Post_Timeskip_Infobox.png/revision/latest?cb=20190303115209&path-prefix=pt",
 		"Image_manga": "",
 		"SplitedName": [
 			"Monkey",
 			"D.",
 			"Luffy"
 		],
-		"Bounty": "3,000,000,000"
+		"Bounty": "3,000,000,000",
+		"Appearance": "Luffy é conhecido como \"Luffy Chapéu de Palha\" por sua marca registrada que é o Chapéu de Palha, que ele ganhou emprestado ainda jovem pelo lendário Yonkou, Shanks \"O Ruivo\", que, por sua vez o recebeu de Gol D. Roger. Luffy veste um short azul, sandálias e um colete vermelho com mangas. Luffy também tem uma cicatriz com dois pontos embaixo do olho esquerdo (que ele ganhou por se esfaquear usando uma faca em seu olho para mostrar para Shanks que ele era um homem) e cabelo preto curto e bagunçado. Ele foi gravemente ferido por Akainu na Batalha de Marineford, deixando uma grande cicatriz em forma de \"X\" em seu peito. Parecendo ser magro debaixo de sua camisa, ele tem um físico surpreendentemente bem construído. Ele é aparentemente muito baixo, pois sua altura é ofuscada pela maioria dos indivíduos na série.\n",
 	}
 ]
 
@@ -173,37 +162,49 @@ response:
 **Search with part of the name**
 ```
 request:
-body:
-{
-	"name": "D."
-}
+query = /specific?name=Monkey
 
 response:
 [
 	{
-		"Status": "Deceased",
-		"Name": "Gol D. Roger",
-		"Image": "https://static.wikia.nocookie.net/onepiece/images/2/24/Gol_D._Roger_Anime_Infobox.png/revision/latest?cb=20230207184122",
-		"Image_manga": "https://static.wikia.nocookie.net/onepiece/images/c/c9/Gol_D._Roger_Manga_Infobox.png/revision/latest?cb=20190325013442",
+		"Status": "",
+		"Name": "Monkey D. Dragon",
+		"Image": "https://static.wikia.nocookie.net/onepiece/images/f/f5/Monkey_D._Dragon_Anime_Infobox.png/revision/latest?cb=20240127214459&path-prefix=pt",
+		"Image_manga": "https://static.wikia.nocookie.net/onepiece/images/5/52/Monkey_D._Dragon_Manga_Infobox.png/revision/latest?cb=20240127214515&path-prefix=pt",
 		"SplitedName": [
-			"Gol",
+			"Monkey",
 			"D.",
-			"Roger"
+			"Dragon"
 		],
-		"Bounty": "5,564,800,000"
+		"Bounty": "",
+		"Appearance": "Dragon é um homem alto, de meia-idade, com cabelos pretos espetados com um topete, e uma tatuagem no lado esquerdo do rosto, que é vermelho escuro no anime e vermelho claro no mangá. Ele tem um pouco de barba no queixo. Em geral, ele veste um longo manto verde, por baixo do qual usa o traje laranja de um revolucionário. Na maioria das vezes, ele é visto com um sorriso. Apenas em raras ocasiões, como na execução de Roger, Dragon não é visto sorrindo.\n"
 	},
 	{
-		"Status": "Alive",
-		"Name": "Jaguar D. Saul",
-		"Image": "https://static.wikia.nocookie.net/onepiece/images/c/cc/Jaguar_D._Saul_Anime_Infobox.png/revision/latest?cb=20221113011440",
-		"Image_manga": "https://static.wikia.nocookie.net/onepiece/images/c/c7/Jaguar_D._Saul_Manga_Infobox.png/revision/latest?cb=20220721201047",
+		"Status": "Desconhecido",
+		"Name": "Monkey D. Garp",
+		"Image": "https://static.wikia.nocookie.net/onepiece/images/e/e1/Monkey_D._Garp_Anime_Infobox.png/revision/latest?cb=20240109223317&path-prefix=pt",
+		"Image_manga": "https://static.wikia.nocookie.net/onepiece/images/4/45/Monkey_D._Garp_Manga_Infobox.png/revision/latest?cb=20240109223310&path-prefix=pt",
 		"SplitedName": [
-			"Jaguar",
+			"Monkey",
 			"D.",
-			"Saul"
+			"Garp"
 		],
-		"Bounty": ""
+		"Bounty": "(3.000.000.000)",
+		"Appearance": "Garp é um homem de idade, alto, moreno, de peito largo e musculoso. Ele tem barba e uma cicatriz no olho esquerdo. No anime, a cor de seus olhos é azul e seu cabelo é cinza, enquanto no mangá é branco. Garp e Tsuru são os dois únicos vice-almirantes que têm ombreiras especiais; Garp é dourado e azul (preto e vermelho no anime), enquanto Tsuru é roxo com pontos brancos, sendo que a cor padrão é azul e vermelho. Durante a Batalha de Edd War, Garp tinha duas listras pretas em suas braçadeiras, e durante sua aparição em Water 7, aumentou para três listras; na época da Guerra de Marineford, aumentou novamente para quatro listras.\n"
 	},
+	{
+		"Status": "Vivo(a)",
+		"Name": "Monkey D. Luffy",
+		"Image": "https://static.wikia.nocookie.net/onepiece/images/6/6d/Monkey_D._Luffy_Anime_Post_Timeskip_Infobox.png/revision/latest?cb=20190303115209&path-prefix=pt",
+		"Image_manga": "",
+		"SplitedName": [
+			"Monkey",
+			"D.",
+			"Luffy"
+		],
+		"Bounty": "3,000,000,000",
+		"Appearance": "Luffy é conhecido como \"Luffy Chapéu de Palha\" por sua marca registrada que é o Chapéu de Palha, que ele ganhou emprestado ainda jovem pelo lendário Yonkou, Shanks \"O Ruivo\", que, por sua vez o recebeu de Gol D. Roger. Luffy veste um short azul, sandálias e um colete vermelho com mangas. Luffy também tem uma cicatriz com dois pontos embaixo do olho esquerdo (que ele ganhou por se esfaquear usando uma faca em seu olho para mostrar para Shanks que ele era um homem) e cabelo preto curto e bagunçado. Ele foi gravemente ferido por Akainu na Batalha de Marineford, deixando uma grande cicatriz em forma de \"X\" em seu peito. Parecendo ser magro debaixo de sua camisa, ele tem um físico surpreendentemente bem construído. Ele é aparentemente muito baixo, pois sua altura é ofuscada pela maioria dos indivíduos na série.\n"
+	}
 ]
 ```
 
